@@ -47,10 +47,24 @@ const sendMailToHospitals = () => {
             console.log("Email sent successfully");
         }
     });
+
+    return 'success'
 }
 
 server.get('/api/auth/emergency', (req, res) => {
-    sendMailToHospitals()
+    try {
+        const message = sendMailToHospitals()
+        if (message === 'success') {
+            res.send({
+                type: 'success'
+            })
+        }
+
+    } catch (err) {
+        res.send({
+            type: 'error'
+        })
+    }
 })
 
 server.listen(PORT, () => {
